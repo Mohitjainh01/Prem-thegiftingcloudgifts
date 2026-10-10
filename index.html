@@ -1,179 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>The Gifting Cloud | Luxury Gifting Experience</title>
-  
-  <!-- Tailwind CSS & Icons -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>The Gifting Cloud | Luxury Gifting</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brandDark: '#040b17',
-            navyCard: '#0b162c',
-            navyBorder: '#1c2e56',
-            goldPrimary: '#dfb76c',
-            goldLight: '#f5dd9f',
-            goldDark: '#b8893d'
-          },
-          fontFamily: {
-            cinzel: ['Cinzel', 'serif'],
-            playfair: ['Playfair Display', 'serif'],
-            sans: ['Plus Jakarta Sans', 'sans-serif']
-          }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#050B14',
+                            deepNavy: '#091527',
+                            navy: '#0E213D',
+                            royal: '#132C52',
+                            card: '#16325B',
+                            border: '#234C82',
+                            gold: '#D4AF37',
+                            goldLight: '#F3E5AB',
+                            goldHover: '#B8972E',
+                            accent: '#E5C07B',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                        cinzel: ['"Cinzel"', 'serif'],
+                    }
+                }
+            }
         }
-      }
-    }
-  </script>
-
-  <style>
-    body {
-      background-color: #040b17;
-      color: #f1f5f9;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      overflow-x: hidden;
-    }
-    .cinzel { font-family: 'Cinzel', serif; }
-    .gold-gradient-text {
-      background: linear-gradient(135deg, #fff3d1 0%, #dfb76c 50%, #b8893d 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .gold-border-gradient {
-      border-image: linear-gradient(to bottom right, #f5dd9f, #b8893d) 1;
-    }
-    /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #040b17; }
-    ::-webkit-scrollbar-thumb { background: #b8893d; border-radius: 3px; }
-  </style>
+    </script>
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF6D6 0%, #D4AF37 50%, #AA820A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(14, 33, 61, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        #welcome-section {
+            transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+            will-change: opacity, transform;
+        }
+    </style>
 </head>
-<body class="min-h-screen relative flex flex-col">
+<body class="bg-brand-dark text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-brand-gold selection:text-brand-dark overflow-x-hidden">
 
-  <!-- ================= TOP HEADER BAR ================= -->
-  <header class="sticky top-0 z-40 bg-[#040b17]/90 backdrop-blur-md border-b border-navyBorder px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <img src="1000218799.png" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=100&auto=format&fit=crop&q=80';" alt="The Gifting Cloud Logo" class="w-10 h-10 rounded-full border border-goldPrimary/60 object-cover shadow-sm shadow-goldPrimary/20">
-      <div>
-        <h1 class="cinzel text-sm sm:text-base font-bold gold-gradient-text tracking-wider leading-tight">THE GIFTING CLOUD</h1>
-        <p class="text-[10px] text-gray-400 tracking-widest uppercase">Luxury Gifting Studio</p>
-      </div>
+    <!-- Top Announcement Ribbon -->
+    <div class="bg-gradient-to-r from-brand-dark via-amber-950/80 to-brand-dark text-amber-200 text-[10px] sm:text-xs py-1.5 px-3 text-center font-medium tracking-wider border-b border-brand-gold/20 flex items-center justify-center gap-1.5 z-50">
+        <i class="fa-solid fa-sparkles text-brand-gold text-[10px]"></i>
+        <span>THE GIFTING CLOUD • BESPOKE LUXURY COLLECTION</span>
+        <i class="fa-solid fa-sparkles text-brand-gold text-[10px]"></i>
     </div>
 
-    <div class="flex items-center space-x-2">
-      <!-- Instagram Button -->
-      <a href="https://www.instagram.com/gifting_cloud_gifts?mdxt=MWNia2ExeGNwbThjeQ==" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md shadow-pink-600/20 hover:opacity-90 transition">
-        <i class="fab fa-instagram text-sm"></i>
-        <span class="hidden sm:inline">Follow on</span> Instagram
-      </a>
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-brand-deepNavy/95 backdrop-blur-md border-b border-brand-gold/30 shadow-xl">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6">
+            <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
+                
+                <!-- Logo & Brand Title -->
+                <a href="#welcome-section" class="flex items-center space-x-2.5 text-left focus:outline-none flex-shrink-0">
+                    <img src="1000218799.png" alt="The Gifting Cloud Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-brand-gold object-cover shadow-md flex-shrink-0">
+                    <div class="min-w-0">
+                        <span class="text-sm sm:text-xl font-cinzel font-black tracking-wide gold-gradient-text block leading-tight truncate">THE GIFTING CLOUD</span>
+                        <span class="text-[9px] sm:text-[10px] tracking-wider uppercase text-amber-300/80 font-serif block">Premium Custom Gifting</span>
+                    </div>
+                </a>
 
-      <!-- Track Order -->
-      <button onclick="openTrackerModal()" class="px-3 py-1.5 rounded-full border border-goldPrimary/50 text-goldLight hover:bg-goldPrimary/10 text-xs font-semibold flex items-center gap-1.5 transition">
-        <i class="fas fa-search text-xs"></i>
-        <span>Track Order</span>
-      </button>
+                <!-- Right Action Controls -->
+                <div class="flex items-center space-x-2 flex-shrink-0">
+                    <!-- Instagram Follow Button -->
+                    <a href="https://www.instagram.com/gifting_cloud_gifts?mdxt=MWNia2ExeGNwbThjeQ==" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold shadow border border-pink-400/40 active:scale-95 transition-all">
+                        <i class="fa-brands fa-instagram text-sm"></i>
+                        <span class="hidden xs:inline">Follow on Instagram</span>
+                    </a>
 
-      <!-- Discreet Admin Trigger Dot -->
-      <button onclick="openAdminLogin()" title="Portal Access" class="w-2.5 h-2.5 rounded-full bg-goldPrimary/40 hover:bg-goldPrimary transition ml-1" aria-label="Portal Access"></button>
-    </div>
-  </header>
+                    <!-- Track Order Button -->
+                    <button onclick="openTrackOrderModal()" class="px-3 py-1.5 rounded-full bg-brand-royal border border-brand-gold/40 text-brand-gold text-[11px] sm:text-xs font-bold flex items-center gap-1.5 active:scale-95 transition-all">
+                        <i class="fa-solid fa-magnifying-glass text-[10px]"></i>
+                        <span>Track Order</span>
+                    </button>
 
-  <!-- ================= PAGE 1: SCROLL-FADING WELCOME INVITATION ================= -->
-  <section id="welcomeHero" class="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 py-8 overflow-hidden transition-opacity duration-300">
-    <!-- Background glow -->
-    <div class="absolute inset-0 bg-gradient-to-b from-blue-950/20 via-transparent to-brandDark pointer-events-none"></div>
+                    <!-- WhatsApp Button -->
+                    <a href="https://wa.me/919468834660?text=Hello%20The%20Gifting%20Cloud!%20I%20am%20interested%20in%20your%20customized%20gifts." target="_blank" class="inline-flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold shadow transition-all border border-emerald-400/40 active:scale-95">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span class="hidden sm:inline">WhatsApp</span>
+                    </a>
 
-    <div class="relative z-10 max-w-xl mx-auto flex flex-col items-center">
-      <!-- Full Welcome Poster Image -->
-      <div class="relative rounded-2xl overflow-hidden border-2 border-goldPrimary/40 shadow-2xl shadow-goldPrimary/10 max-w-xs sm:max-w-sm mb-6 group">
-        <img src="1000219457.png" onerror="this.onerror=null; this.src='1000218799.png';" alt="Welcome to The Gifting Cloud" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-      </div>
-
-      <span class="text-xs tracking-[0.3em] uppercase text-goldPrimary/80 font-semibold mb-2">Welcome to the Luxury of Gifting</span>
-      <h2 class="cinzel text-2xl sm:text-4xl font-extrabold gold-gradient-text mb-3">Customized Handcrafted Memories</h2>
-      <p class="text-xs sm:text-sm text-gray-300 max-w-md mx-auto mb-6 leading-relaxed">
-        Personalized keepsakes, celebration gifts, and bespoke surprises crafted exclusively for your special moments.
-      </p>
-
-      <!-- Down Arrow Indicator -->
-      <a href="#shopCatalog" class="inline-flex flex-col items-center text-goldLight/70 hover:text-goldLight transition animate-bounce">
-        <span class="text-[11px] uppercase tracking-widest font-semibold mb-1">Scroll down to explore</span>
-        <i class="fas fa-chevron-down text-sm"></i>
-      </a>
-    </div>
-  </section>
-
-  <!-- ================= PAGE 2: PRODUCT CATALOG SECTION ================= -->
-  <section id="shopCatalog" class="flex-1 max-w-6xl mx-auto w-full px-4 py-10">
-    <!-- Section Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-navyBorder gap-4">
-      <div>
-        <div class="flex items-center gap-2 mb-1">
-          <i class="fas fa-gem text-goldPrimary text-xs"></i>
-          <span class="text-xs uppercase tracking-widest text-goldPrimary font-semibold">Curated Collection</span>
+                    <!-- Stealth Admin Trigger Dot -->
+                    <button id="secret-admin-trigger-dot" title="Settings" class="w-2.5 h-2.5 rounded-full bg-brand-gold/40 hover:bg-brand-gold focus:outline-none transition-colors ml-0.5" style="touch-action: manipulation;"></button>
+                </div>
+            </div>
         </div>
-        <h3 class="cinzel text-xl sm:text-3xl font-bold text-white">Signature Custom Gifts</h3>
-        <p class="text-xs sm:text-sm text-gray-400 mt-1">Select any item, attach your custom photo with instructions, and place your order.</p>
-      </div>
+    </header>
 
-      <!-- Category Filter Pills -->
-      <div id="categoryPills" class="flex flex-wrap gap-2">
-        <button onclick="filterCategory('All')" class="cat-pill active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-goldPrimary text-brandDark transition">All Items</button>
-        <button onclick="filterCategory('Romantic')" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-navyCard text-gray-300 border border-navyBorder hover:border-goldPrimary/50 transition">Romantic & Cards</button>
-        <button onclick="filterCategory('Personalized')" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-navyCard text-gray-300 border border-navyBorder hover:border-goldPrimary/50 transition">Photo & Keepsakes</button>
-        <button onclick="filterCategory('Party')" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-navyCard text-gray-300 border border-navyBorder hover:border-goldPrimary/50 transition">Mascot & Events</button>
-        <button onclick="filterCategory('Pop')" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-navyCard text-gray-300 border border-navyBorder hover:border-goldPrimary/50 transition">Badges & Accessories</button>
-      </div>
-    </div>
+    <main class="flex-grow">
+        <!-- ==================== SCROLL-DISSOLVE WELCOME PAGE ==================== -->
+        <section id="welcome-section" class="relative min-h-[85vh] flex items-center justify-center py-10 px-4 overflow-hidden border-b border-brand-gold/20">
+            <div class="max-w-2xl mx-auto text-center relative z-10 flex flex-col items-center">
+                <!-- Welcome Poster Image -->
+                <div class="w-full max-w-sm sm:max-w-md rounded-2xl overflow-hidden border-2 border-brand-gold/40 shadow-2xl mb-6">
+                    <img src="1000219457.png" alt="Welcome to The Gifting Cloud" class="w-full h-auto object-cover">
+                </div>
 
-    <!-- Product Grid -->
-    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Injected via JavaScript -->
-    </div>
-  </section>
+                <div class="space-y-3">
+                    <h1 class="text-xl sm:text-3xl font-cinzel font-black tracking-wide text-white uppercase leading-tight">
+                        Experience The <span class="gold-gradient-text">Art of Gifting</span>
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto">
+                        Personalized keepsakes, bespoke cards, and memorable surprises made to order.
+                    </p>
+                    
+                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <a href="#store-catalog" class="w-full sm:w-auto px-6 py-3 rounded-full bg-gradient-to-r from-brand-gold via-amber-400 to-brand-goldHover text-brand-dark font-cinzel font-black text-xs tracking-wider uppercase shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2">
+                            <span>Scroll Down To Browse</span>
+                            <i class="fa-solid fa-arrow-down text-xs animate-bounce"></i>
+                        </a>
+                        <a href="https://www.instagram.com/gifting_cloud_gifts?mdxt=MWNia2ExeGNwbThjeQ==" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-5 py-3 rounded-full bg-brand-royal hover:bg-brand-card text-pink-300 border border-pink-500/40 font-bold text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                            <span>Follow @gifting_cloud_gifts</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="mt-auto border-t border-navyBorder bg-[#020711] py-8 px-4 text-center text-xs text-gray-400">
-    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center space-x-2">
-        <img src="1000218799.png" onerror="this.onerror=null; this.src='1000219457.png';" alt="The Gifting Cloud" class="w-6 h-6 rounded-full border border-goldPrimary/40">
-        <span class="cinzel font-bold text-goldLight tracking-wider">THE GIFTING CLOUD</span>
-      </div>
-      
-      <div class="flex items-center gap-4">
-        <a href="https://www.instagram.com/gifting_cloud_gifts?mdxt=MWNia2ExeGNwbThjeQ==" target="_blank" class="text-gray-300 hover:text-pink-400 transition flex items-center gap-1.5">
-          <i class="fab fa-instagram"></i> @gifting_cloud_gifts
-        </a>
-        <a href="https://wa.me/919468834660" target="_blank" class="text-gray-300 hover:text-green-400 transition flex items-center gap-1.5">
-          <i class="fab fa-whatsapp"></i> +91 9468834660
-        </a>
-      </div>
-
-      <p class="text-gray-500">© 2026 The Gifting Cloud. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <!-- ================= CUSTOMIZATION & ORDER MODAL ================= -->
-  <div id="orderModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
-    <div class="bg-navyCard border border-goldPrimary/40 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl relative my-auto">
-      
-      <!-- Modal Header -->
-      <div class="px-5 py-4 border-b border-navyBorder bg-[#040b17] flex items-center justify-between">
-        <div class="flex items-center gap-2">
+        <!-- ==================== MAIN STORE CATALOG ==================== -->
+        <section id="store-catalog" class="py-10 px-3.5 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between border-b border-brand-gold/30 pb-4 mb-6 gap-3">
+                <div>
+                    <span class="text-brand-gold text-[10px] font-bold uppercase tracking-wider block">Signature Collection Directory</span>
+                    <h2 class="text-2xl sm:text-3xl font-cinzel font-black text-white">Select Your Custom Gift</h2>
+                    <p class="text-xs text-slate-300 mt-0.5">Pick any product, attach custom photos, and place your order directly.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openTrackOrderModal()" class="px-3 py-1.5 rounded-full bg-brand-royal border border-brand-gold text-brand-gold text-xs font-bold flex items-center gap-1.5 active:scale-95">
+                        <i class="
+center gap-2">
           <i class="fas fa-gift text-goldPrimary"></i>
           <h4 class="cinzel text-base font-bold gold-gradient-text" id="modalProductTitle">Customize Your Gift</h4>
         </div>
