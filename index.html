@@ -1,172 +1,341 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>The Gifting Cloud | Luxury Gifting - Nokha</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Gifting Cloud | Luxury Gifting Experience</title>
+  
+  <!-- Tailwind CSS & Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Firebase Compat SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            dark: '#050B14',
-                            deepNavy: '#091527',
-                            navy: '#0E213D',
-                            royal: '#132C52',
-                            card: '#16325B',
-                            border: '#234C82',
-                            gold: '#D4AF37',
-                            goldLight: '#F3E5AB',
-                            goldHover: '#B8972E',
-                            accent: '#E5C07B',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'serif'],
-                        cinzel: ['"Cinzel"', 'serif'],
-                    }
-                }
-            }
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandDark: '#040b17',
+            navyCard: '#0b162c',
+            navyBorder: '#1c2e56',
+            goldPrimary: '#dfb76c',
+            goldLight: '#f5dd9f',
+            goldDark: '#b8893d'
+          },
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            playfair: ['Playfair Display', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif']
+          }
         }
-    </script>
-    <style>
-        * {
-            -webkit-tap-highlight-color: transparent;
-            box-sizing: border-box;
-        }
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #FFF6D6 0%, #D4AF37 50%, #AA820A 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .fairy-lights-bg {
-            background-image: radial-gradient(circle, #FFE494 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
-        .glass-card {
-            background: rgba(14, 33, 61, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(0.95); }
-            50% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 6px rgba(255, 228, 148, 0.8)); }
-        }
-        .twinkle {
-            animation: twinkle 3s infinite ease-in-out;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #040b17;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    .cinzel { font-family: 'Cinzel', serif; }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #fff3d1 0%, #dfb76c 50%, #b8893d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gold-border-gradient {
+      border-image: linear-gradient(to bottom right, #f5dd9f, #b8893d) 1;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #040b17; }
+    ::-webkit-scrollbar-thumb { background: #b8893d; border-radius: 3px; }
+  </style>
 </head>
-<body class="bg-brand-dark text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-brand-gold selection:text-brand-dark overflow-x-hidden">
+<body class="min-h-screen relative flex flex-col">
 
-
-    <!-- Top Announcement Ribbon -->
-    <div class="bg-gradient-to-r from-brand-dark via-amber-950/80 to-brand-dark text-amber-200 text-[10px] sm:text-xs py-1.5 px-3 text-center font-medium tracking-wider border-b border-brand-gold/20 flex items-center justify-center gap-1.5 z-50">
-        <i class="fa-solid fa-sparkles text-brand-gold text-[10px]"></i>
-        <span>NOKHA'S LUXURY GIFTING • FLAT ₹100 CELEBRATION SPECIAL</span>
-        <i class="fa-solid fa-sparkles text-brand-gold text-[10px]"></i>
+  <!-- ================= TOP HEADER BAR ================= -->
+  <header class="sticky top-0 z-40 bg-[#040b17]/90 backdrop-blur-md border-b border-navyBorder px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <img src="1000218799.png" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=100&auto=format&fit=crop&q=80';" alt="The Gifting Cloud Logo" class="w-10 h-10 rounded-full border border-goldPrimary/60 object-cover shadow-sm shadow-goldPrimary/20">
+      <div>
+        <h1 class="cinzel text-sm sm:text-base font-bold gold-gradient-text tracking-wider leading-tight">THE GIFTING CLOUD</h1>
+        <p class="text-[10px] text-gray-400 tracking-widest uppercase">Luxury Gifting Studio</p>
+      </div>
     </div>
 
-    <!-- Mobile-First Compact Sticky Header -->
-    <header class="sticky top-0 z-40 bg-brand-deepNavy/95 backdrop-blur-md border-b border-brand-gold/30 shadow-xl">
-        <div class="max-w-7xl mx-auto px-3 sm:px-6">
-            <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
-                
-                <!-- Logo & Brand Title -->
-                <button onclick="switchTab('page-1')" class="flex items-center space-x-2.5 text-left focus:outline-none flex-shrink-0">
-                    <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-full border border-brand-gold bg-brand-royal flex items-center justify-center text-brand-gold shadow-md flex-shrink-0">
-                        <i class="fa-solid fa-cloud text-base sm:text-xl"></i>
-                    </div>
-                    <div class="min-w-0">
-                        <span class="text-sm sm:text-xl font-cinzel font-black tracking-wide gold-gradient-text block leading-tight truncate">THE GIFTING CLOUD</span>
-                        <span class="text-[9px] sm:text-[10px] tracking-wider uppercase text-amber-300/80 font-serif block">Nokha • Premium Store</span>
-                    </div>
-                </button>
+    <div class="flex items-center space-x-2">
+      <!-- Instagram Button -->
+      <a href="https://www.instagram.com/gifting_cloud_gifts?mdxt=MWNia2ExeGNwbThjeQ==" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md shadow-pink-600/20 hover:opacity-90 transition">
+        <i class="fab fa-instagram text-sm"></i>
+        <span class="hidden sm:inline">Follow on</span> Instagram
+      </a>
 
-                <!-- Desktop Nav -->
-                <nav class="hidden md:flex items-center space-x-2">
-                    <button id="nav-btn-1" onclick="switchTab('page-1')" class="px-4 py-2 rounded-full text-xs uppercase tracking-wider font-bold transition-all bg-brand-gold text-brand-dark shadow">
-                        <i class="fa-regular fa-envelope-open mr-1"></i> Invitation
-                    </button>
-                    <button id="nav-btn-2" onclick="switchTab('page-2')" class="px-4 py-2 rounded-full text-xs uppercase tracking-wider font-bold transition-all text-amber-200 hover:bg-brand-royal/90 border border-brand-gold/30">
-                        <i class="fa-solid fa-gift mr-1"></i> Shop Items (₹100)
-                    </button>
-                    <button onclick="openTrackOrderModal()" class="px-4 py-2 rounded-full text-xs uppercase tracking-wider font-bold transition-all bg-brand-royal text-brand-gold border border-brand-gold/40 flex items-center gap-1.5">
-                        <i class="fa-solid fa-magnifying-glass"></i> Track Order
-                    </button>
-                </nav>
+      <!-- Track Order -->
+      <button onclick="openTrackerModal()" class="px-3 py-1.5 rounded-full border border-goldPrimary/50 text-goldLight hover:bg-goldPrimary/10 text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fas fa-search text-xs"></i>
+        <span>Track Order</span>
+      </button>
 
-                <!-- Action Controls: Track, WhatsApp & Stealth Dot -->
-                <div class="flex items-center space-x-2 flex-shrink-0">
-                    <button onclick="openTrackOrderModal()" class="md:hidden px-2.5 py-1.5 rounded-full bg-brand-royal border border-brand-gold/40 text-brand-gold text-[10px] font-bold flex items-center gap-1 active:scale-95 transition-transform">
-                        <i class="fa-solid fa-magnifying-glass text-[10px]"></i>
-                        <span>Track</span>
-                    </button>
-                    <a href="https://wa.me/919468834660?text=Hello%20The%20Gifting%20Cloud!%20I%20am%20interested%20in%20your%20customized%20gifts." target="_blank" class="inline-flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold shadow transition-all border border-emerald-400/40 active:scale-95">
-                        <i class="fa-brands fa-whatsapp text-sm"></i>
-                        <span class="hidden sm:inline">WhatsApp</span>
-                    </a>
-                    <!-- Prem's Stealth Admin Trigger Dot -->
-                    <button id="secret-admin-trigger-dot" title="Settings" class="w-2.5 h-2.5 rounded-full bg-brand-gold/40 hover:bg-brand-gold focus:outline-none transition-colors ml-0.5" style="touch-action: manipulation;"></button>
-                </div>
+      <!-- Discreet Admin Trigger Dot -->
+      <button onclick="openAdminLogin()" title="Portal Access" class="w-2.5 h-2.5 rounded-full bg-goldPrimary/40 hover:bg-goldPrimary transition ml-1" aria-label="Portal Access"></button>
+    </div>
+  </header>
+
+  <!-- ================= PAGE 1: SCROLL-FADING WELCOME INVITATION ================= -->
+  <section id="welcomeHero" class="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 py-8 overflow-hidden transition-opacity duration-300">
+    <!-- Background glow -->
+    <div class="absolute inset-0 bg-gradient-to-b from-blue-950/20 via-transparent to-brandDark pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-xl mx-auto flex flex-col items-center">
+      <!-- Full Welcome Poster Image -->
+      <div class="relative rounded-2xl overflow-hidden border-2 border-goldPrimary/40 shadow-2xl shadow-goldPrimary/10 max-w-xs sm:max-w-sm mb-6 group">
+        <img src="1000219457.png" onerror="this.onerror=null; this.src='1000218799.png';" alt="Welcome to The Gifting Cloud" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+      </div>
+
+      <span class="text-xs tracking-[0.3em] uppercase text-goldPrimary/80 font-semibold mb-2">Welcome to the Luxury of Gifting</span>
+      <h2 class="cinzel text-2xl sm:text-4xl font-extrabold gold-gradient-text mb-3">Customized Handcrafted Memories</h2>
+      <p class="text-xs sm:text-sm text-gray-300 max-w-md mx-auto mb-6 leading-relaxed">
+        Personalized keepsakes, celebration gifts, and bespoke surprises crafted exclusively for your special moments.
+      </p>
+
+      <!-- Down Arrow Indicator -->
+      <a href="#shopCatalog" class="inline-flex flex-col items-center text-goldLight/70 hover:text-goldLight transition animate-bounce">
+        <span class="text-[11px] uppercase tracking-widest font-semibold mb-1">Scroll down to explore</span>
+        <i class="fas fa-chevron-down text-sm"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= PAGE 2: PRODUCT CATALOG SECTION ================= -->
+  <section id="shopCatalog" class="flex-1 max-w-6xl mx-auto w-full px-4 py-10">
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-navyBorder gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <i class="fas fa-gem text-goldPrimary text-xs"></i>
+          <span class="text-xs uppercase tracking-widest text-goldPrimary font-semibold">Curated Collection</span>
+        </div>
+        <h3 class="cinzel text-xl sm:text-3xl font-bold text-white">Signature Custom Gifts</h3>
+        <p class="text-xs sm:text-sm text-gray-400 mt-1">Select any item, attach your custom photo with instructions, and place your order.</p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div id="categoryPills" class="flex flex-wrap gap-2">
+        <button onclick="filterCategory('All')" class="cat-pill active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-goldPrimary text-brandDark transition">All Items</button>
+        <button onclick="filterCategory('Romantic')" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-navyCard text-gray-300 border border-navyBorder hover:border-goldPrimary/50 transition">Romantic & Cards</button>
+        <button onclick="filterCategory('Personalized')" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-navyCard text-gray-300 border border-navyBorder hover:border-goldPrimary/50 transition">Photo & Keepsakes</button>
+        <button onclick="filterCategory('Party')" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-navyCard text-gray-300 border border-navyBorder hover:border-goldPrimary/50 transition">Mascot & Events</button>
+        <button onclick="filterCategory('Pop')" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-navyCard text-gray-300 border border-navyBorder hover:border-goldPrimary/50 transition">Badges & Accessories</button>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Injected via JavaScript -->
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="mt-auto border-t border-navyBorder bg-[#020711] py-8 px-4 text-center text-xs text-gray-400">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-2">
+        <img src="1000218799.png" onerror="this.onerror=null; this.src='1000219457.png';" alt="The Gifting Cloud" class="w-6 h-6 rounded-full border border-goldPrimary/40">
+        <span class="cinzel font-bold text-goldLight tracking-wider">THE GIFTING CLOUD</span>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <a href="https://www.instagram.com/gifting_cloud_gifts?mdxt=MWNia2ExeGNwbThjeQ==" target="_blank" class="text-gray-300 hover:text-pink-400 transition flex items-center gap-1.5">
+          <i class="fab fa-instagram"></i> @gifting_cloud_gifts
+        </a>
+        <a href="https://wa.me/919468834660" target="_blank" class="text-gray-300 hover:text-green-400 transition flex items-center gap-1.5">
+          <i class="fab fa-whatsapp"></i> +91 9468834660
+        </a>
+      </div>
+
+      <p class="text-gray-500">© 2026 The Gifting Cloud. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ================= CUSTOMIZATION & ORDER MODAL ================= -->
+  <div id="orderModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-navyCard border border-goldPrimary/40 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl relative my-auto">
+      
+      <!-- Modal Header -->
+      <div class="px-5 py-4 border-b border-navyBorder bg-[#040b17] flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-gift text-goldPrimary"></i>
+          <h4 class="cinzel text-base font-bold gold-gradient-text" id="modalProductTitle">Customize Your Gift</h4>
+        </div>
+        <button onclick="closeOrderModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <form id="orderForm" onsubmit="handlePlaceOrder(event)" class="p-5 space-y-4 max-h-[78vh] overflow-y-auto text-left">
+        
+        <!-- Summary Banner -->
+        <div class="flex items-center justify-between p-3 rounded-xl bg-[#040b17]/60 border border-navyBorder">
+          <div>
+            <p class="text-xs text-gray-400" id="modalCategoryBadge">Category</p>
+            <p class="font-bold text-white text-sm" id="modalProductName">Selected Product</p>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-gray-400">Total Price</span>
+            <p class="cinzel text-lg font-bold text-goldLight">₹100</p>
+          </div>
+        </div>
+
+        <!-- STEP 1: Upload Photo -->
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-goldLight mb-1">
+            1. Upload Customization Photo <span class="text-red-400">*</span>
+          </label>
+          <div class="border-2 border-dashed border-navyBorder hover:border-goldPrimary/60 rounded-xl p-4 text-center cursor-pointer transition bg-[#040b17]/30" onclick="document.getElementById('photoInput').click()">
+            <input type="file" id="photoInput" accept="image/*" class="hidden" onchange="handleImageSelection(event)">
+            
+            <div id="uploadPrompt" class="space-y-1">
+              <i class="fas fa-cloud-upload-alt text-2xl text-goldPrimary"></i>
+              <p class="text-xs font-medium text-gray-200">Tap to browse or take a photo</p>
+              <p class="text-[10px] text-gray-400">Supports JPG, PNG (automatically optimized)</p>
             </div>
+
+            <!-- Preview Container -->
+            <div id="imagePreviewContainer" class="hidden flex items-center justify-center gap-3">
+              <img id="imagePreview" src="" alt="Custom preview" class="w-16 h-16 object-cover rounded-lg border border-goldPrimary/60 shadow">
+              <div class="text-left text-xs">
+                <p id="fileNameDisplay" class="font-semibold text-gray-200 truncate max-w-[180px]">image.jpg</p>
+                <span class="text-green-400 text-[10px] flex items-center gap-1"><i class="fas fa-check-circle"></i> Ready to upload</span>
+                <button type="button" onclick="event.stopPropagation(); removeSelectedImage()" class="text-red-400 text-[10px] underline block mt-0.5">Remove</button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Mobile Navigation Strip -->
-        <div class="flex md:hidden border-t border-brand-gold/20 bg-brand-dark/95">
-            <button onclick="switchTab('page-1')" id="m-nav-1" class="flex-1 py-2.5 text-center text-[11px] font-bold uppercase tracking-wider text-brand-gold border-b-2 border-brand-gold transition-colors">
-                Invitation
-            </button>
-            <button onclick="switchTab('page-2')" id="m-nav-2" class="flex-1 py-2.5 text-center text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b-2 border-transparent transition-colors">
-                Shop (₹100)
-            </button>
-            <button onclick="openTrackOrderModal()" class="flex-1 py-2.5 text-center text-[11px] font-bold uppercase tracking-wider text-amber-300 border-b-2 border-transparent transition-colors">
-                Track Order
-            </button>
+        <!-- STEP 2: Custom Instructions -->
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-goldLight mb-1">
+            2. Customization Instructions <span class="text-red-400">*</span>
+          </label>
+          <textarea id="instructionsInput" required rows="2" placeholder="e.g. Names to engrave, date, song title, or custom wording" class="w-full bg-[#040b17] border border-navyBorder rounded-xl p-3 text-xs text-white focus:outline-none focus:border-goldPrimary resize-none"></textarea>
         </div>
-    </header>
 
+        <!-- STEP 3: Mandatory Customer Details -->
+        <div class="space-y-2 pt-2 border-t border-navyBorder">
+          <p class="text-xs font-semibold uppercase tracking-wider text-goldLight">3. Mandatory Delivery Information</p>
+          
+          <div>
+            <input type="text" id="custName" required placeholder="Full Name *" class="w-full bg-[#040b17] border border-navyBorder rounded-lg p-2.5 text-xs text-white focus:border-goldPrimary">
+          </div>
+          <div>
+            <textarea id="custAddress" required rows="2" placeholder="Complete Delivery Address with Pincode *" class="w-full bg-[#040b17] border border-navyBorder rounded-lg p-2.5 text-xs text-white focus:border-goldPrimary resize-none"></textarea>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input type="tel" id="custPhone" required pattern="[0-9]{10}" placeholder="Primary Mobile (10 Digits) *" class="w-full bg-[#040b17] border border-navyBorder rounded-lg p-2.5 text-xs text-white focus:border-goldPrimary">
+            <input type="tel" id="custPhoneSec" required pattern="[0-9]{10}" placeholder="Secondary Mobile (10 Digits) *" class="w-full bg-[#040b17] border border-navyBorder rounded-lg p-2.5 text-xs text-white focus:border-goldPrimary">
+          </div>
+          <div>
+            <input type="email" id="custEmail" required placeholder="Email Address *" class="w-full bg-[#040b17] border border-navyBorder rounded-lg p-2.5 text-xs text-white focus:border-goldPrimary">
+          </div>
+        </div>
 
-    <main class="flex-grow">
-        <!-- ==================== PAGE 1: WELCOME INVITATION ==================== -->
-        <section id="page-1" class="relative py-8 sm:py-16 px-3.5 sm:px-6 overflow-hidden">
-            <div class="absolute inset-0 pointer-events-none opacity-20 fairy-lights-bg"></div>
-            <div class="absolute top-6 left-4 text-amber-300 text-xl twinkle"><i class="fa-solid fa-star"></i></div>
-            <div class="absolute top-16 right-6 text-amber-200 text-2xl twinkle" style="animation-delay: 1.2s;"><i class="fa-solid fa-star"></i></div>
+        <!-- Submit Button -->
+        <div class="pt-2">
+          <button type="submit" id="buyBtn" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-700/30 transition">
+            <i class="fab fa-whatsapp text-lg"></i>
+            <span>Confirm & Buy on WhatsApp (₹100)</span>
+          </button>
+          <p class="text-[10px] text-center text-gray-400 mt-2">
+            Your customized photo link and mandatory delivery information will be sent directly via WhatsApp.
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
 
-            <div class="max-w-3xl mx-auto relative z-10">
-                <div class="glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-12 text-center border-2 border-brand-gold/40 shadow-2xl relative">
-                    
-                    <div class="flex justify-between items-center px-2 mb-4 text-amber-200/70">
-                        <span class="text-[10px] tracking-widest"><i class="fa-solid fa-lightbulb text-amber-300 text-[10px]"></i> • •</span>
-                        <div class="flex space-x-2 text-xs text-brand-gold">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star text-sm"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
+  <!-- ================= TRACK ORDER MODAL ================= -->
+  <div id="trackerModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-navyCard border border-navyBorder rounded-2xl w-full max-w-md p-5 shadow-2xl relative text-left">
+      <div class="flex items-center justify-between pb-3 border-b border-navyBorder mb-4">
+        <h4 class="cinzel text-base font-bold text-goldLight flex items-center gap-2">
+          <i class="fas fa-shipping-fast text-goldPrimary"></i> Track Your Order
+        </h4>
+        <button onclick="closeTrackerModal()" class="text-gray-400 hover:text-white">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="flex gap-2 mb-4">
+        <input type="text" id="trackInput" placeholder="Enter Order ID or 10-digit Mobile" class="flex-1 bg-[#040b17] border border-navyBorder rounded-lg p-2.5 text-xs text-white focus:border-goldPrimary">
+        <button onclick="trackOrderLookup()" class="px-4 py-2 bg-goldPrimary hover:bg-goldLight text-brandDark font-bold text-xs rounded-lg transition">
+          Search
+        </button>
+      </div>
+
+      <div id="trackResultContainer" class="hidden space-y-3">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PREM'S ADMIN LOGIN MODAL ================= -->
+  <div id="adminLoginModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-navyCard border border-goldPrimary/40 rounded-2xl w-full max-w-sm p-6 text-center shadow-2xl">
+      <div class="w-12 h-12 rounded-full bg-goldPrimary/20 flex items-center justify-center mx-auto mb-3 text-goldPrimary text-xl">
+        <i class="fas fa-user-shield"></i>
+      </div>
+      <h4 class="cinzel text-lg font-bold text-white mb-1">Prem's Admin Portal</h4>
+      <p class="text-xs text-gray-400 mb-4">Enter management credentials</p>
+
+      <div class="space-y-3 text-left">
+        <div>
+          <label class="text-[11px] uppercase tracking-wider text-gray-300">User ID</label>
+          <input type="text" id="adminUserId" placeholder="Prem@1234" class="w-full bg-[#040b17] border border-navyBorder rounded-lg p-2.5 text-xs text-white focus:border-goldPrimary">
+        </div>
+        <div>
+          <label class="text-[11px] uppercase tracking-wider text-gray-300">Password</label>
+          <input type="password" id="adminPassword" placeholder="••••••••" class="w-full bg-[#040b17] border border-navyBorder rounded-lg p-2.5 text-xs text-white focus:border-goldPrimary">
+        </div>
+        <button onclick="handleAdminLogin()" class="w-full py-2.5 bg-goldPrimary hover:bg-goldLight text-brandDark font-bold text-xs rounded-lg transition mt-2">
+          Log In
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PREM'S ADMIN DASHBOARD ================= -->
+  <div id="adminDashboard" class="fixed inset-0 z-50 bg-brandDark hidden flex-col overflow-hidden">
+    <!-- Admin Topbar -->
+    <div class="bg-navyCard border-b border-navyBorder px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="cinzel font-bold text-goldLight text-sm sm:text-base">Prem's Command Center</span>
+        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">Live Cloud Synced</span>
+      </div>
+      <button onclick="closeAdminDashboard()" class="px-3 py-1 bg-red-500/20 border border-red-500/30 text-red-300 text-xs rounded-lg hover:bg-red-500/30">
+        Exit Portal
+      </button>
+    </div>
+
+    <!-- Admin Content -->
+    <div class="flex-1 p-4 overflow-y-auto max-w-6xl mx-auto w-full space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <h3 class="text-base font-bold text-white">All Store Orders</h3>
+        <input type="text" id="adminSearchInput" onkeyup="filterAdminOrders()" placeholder="Filter by Order ID, Name, Phone..." class="bg-[#040b17] border border-navyBorder rounded-lg px-3 py-1.5 text-xs text-white max-w-xs focus:border-goldPrimary">
+      </div>
+
+      <!-- Orders Table Container -->
+                     </div>
                         <span class="text-[10px] tracking-widest">• • <i class="fa-solid fa-lightbulb text-amber-300 text-[10px]"></i></span>
                     </div>
 
