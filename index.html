@@ -184,7 +184,7 @@
 
             <!-- Category Filter Carousel (Horizontally scrollable on mobile) -->
             <div class="flex items-center gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar" id="category-filter-bar">
-                <!-- Dynamically generated categories will populate here -->
+                <!-- Dynamically generated categories populate here -->
             </div>
 
             <!-- Products Grid -->
@@ -345,7 +345,7 @@
             <div class="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-400 mx-auto flex items-center justify-center text-emerald-400 text-xl shadow">
                 <i class="fa-solid fa-check"></i>
             </div>
-            <h3 class="text-lg font-cinzel font-black text-white gold-gradient-text">Order Registered in Cloud!</h3>
+            <h3 class="text-lg font-cinzel font-black text-white gold-gradient-text">Order Registered!</h3>
             <p class="text-xs text-slate-300">WhatsApp is opening to send your order directly.</p>
             
             <div class="p-2.5 bg-brand-royal rounded-xl border border-brand-gold/40 text-left space-y-1">
@@ -418,12 +418,12 @@
             <form onsubmit="handleAdminLogin(event)" class="space-y-3">
                 <div>
                     <label class="block text-[10px] font-semibold text-slate-300 mb-0.5">User ID</label>
-                    <input type="text" id="admin-user-id" placeholder="User Id" required class="w-full text-xs rounded-xl bg-brand-card border border-brand-gold/40 p-2.5 text-white focus:outline-none">
+                    <input type="text" id="admin-user-id" placeholder="Admin" required class="w-full text-xs rounded-xl bg-brand-card border border-brand-gold/40 p-2.5 text-white focus:outline-none">
                 </div>
 
                 <div>
                     <label class="block text-[10px] font-semibold text-slate-300 mb-0.5">Password</label>
-                    <input type="password" id="admin-password" placeholder="••••••••" required class="w-full text-xs rounded-xl bg-brand-card border border-brand-gold/40 p-2.5 text-white focus:outline-none">
+                    <input type="password" id="admin-password" placeholder="Password" required class="w-full text-xs rounded-xl bg-brand-card border border-brand-gold/40 p-2.5 text-white focus:outline-none">
                 </div>
 
                 <div id="admin-login-error" class="hidden p-2 rounded-xl bg-rose-950/80 border border-rose-500 text-rose-200 text-xs text-center font-medium"></div>
@@ -449,21 +449,25 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h2 class="text-lg sm:text-xl font-cinzel font-black text-white gold-gradient-text">Prem's Admin Center</h2>
-                        <span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded-full font-bold">Cloud Synced</span>
+                        <span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded-full font-bold">Permanent Local+Cloud Master</span>
                     </div>
-                    <p class="text-[11px] text-slate-300">Live order fulfillment, catalog creation & category management</p>
+                    <p class="text-[11px] text-slate-300">Catalog persists permanently on device and synchronizes to cloud</p>
                 </div>
 
-                <div class="flex items-center gap-2 w-full sm:w-auto">
+                <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                     <button onclick="switchAdminSubTab('orders')" id="adm-tab-orders-btn" class="px-3.5 py-1.5 rounded-xl bg-brand-gold text-brand-dark text-xs font-bold shadow">
                         <i class="fa-solid fa-boxes-stacked mr-1"></i> Orders
                     </button>
                     <button onclick="switchAdminSubTab('catalog')" id="adm-tab-catalog-btn" class="px-3.5 py-1.5 rounded-xl bg-brand-royal border border-brand-gold/40 text-amber-200 text-xs font-semibold">
                         <i class="fa-solid fa-shapes mr-1"></i> Catalog & Categories
                     </button>
-                    <button onclick="exportOrdersJSON()" class="px-3 py-1.5 rounded-xl bg-brand-royal border border-brand-gold/30 text-amber-200 text-xs font-semibold">
-                        <i class="fa-solid fa-download mr-1"></i> Export
+                    <button onclick="backupCatalogJSON()" class="px-3 py-1.5 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-xs font-semibold" title="Backup Catalog Data permanently">
+                        <i class="fa-solid fa-floppy-disk mr-1"></i> Backup
                     </button>
+                    <button onclick="document.getElementById('restore-catalog-file-input').click()" class="px-3 py-1.5 rounded-xl bg-sky-950/70 border border-sky-500/50 text-sky-300 text-xs font-semibold" title="Restore Catalog JSON">
+                        <i class="fa-solid fa-upload mr-1"></i> Restore
+                    </button>
+                    <input type="file" id="restore-catalog-file-input" accept=".json" class="sr-only" onchange="restoreCatalogJSON(event)">
                     <button onclick="adminLogout()" class="px-3 py-1.5 rounded-xl bg-rose-900/60 border border-rose-500/40 text-rose-200 text-xs font-bold">
                         <i class="fa-solid fa-right-from-bracket mr-1"></i> Exit
                     </button>
@@ -514,7 +518,7 @@
                     <div class="flex items-center justify-between flex-wrap gap-2 border-b border-brand-gold/25 pb-2.5">
                         <div>
                             <h3 class="font-cinzel font-bold text-white text-sm sm:text-base gold-gradient-text">Category Directory Manager</h3>
-                            <p class="text-[11px] text-slate-300">Add or delete store categories in real time</p>
+                            <p class="text-[11px] text-slate-300">Add or delete store categories in real time (Saved permanently)</p>
                         </div>
                         <div class="flex items-center gap-2">
                             <input type="text" id="new-category-input" placeholder="New Category Name..." class="text-xs rounded-xl bg-brand-card border border-brand-gold/40 px-3 py-2 text-white focus:outline-none focus:ring-1 focus:ring-brand-gold">
@@ -526,7 +530,7 @@
 
                     <!-- Category Pills List -->
                     <div class="pt-1">
-                        <span class="text-[10px] text-amber-200/90 font-bold block mb-2 uppercase tracking-wider">Active Categories (Click delete icon to remove):</span>
+                        <span class="text-[10px] text-amber-200/90 font-bold block mb-2 uppercase tracking-wider">Active Categories (Click X to delete):</span>
                         <div id="admin-category-pills-container" class="flex flex-wrap gap-2">
                             <!-- Populated dynamically -->
                         </div>
@@ -539,7 +543,7 @@
                     <div class="glass-card rounded-xl p-4 sm:p-5 border border-brand-gold/40 lg:col-span-1 space-y-3.5 h-fit">
                         <div class="border-b border-brand-gold/25 pb-2">
                             <h3 id="product-form-heading" class="font-cinzel font-bold text-white text-sm gold-gradient-text">Create New Gift Item</h3>
-                            <p class="text-[10px] text-slate-300">Set images, pricing, category, and details</p>
+                            <p class="text-[10px] text-slate-300">Stored safely on device and synced across clouds</p>
                         </div>
 
                         <form id="admin-product-form" onsubmit="handleProductFormSubmit(event)" class="space-y-2.5 text-left">
@@ -566,13 +570,13 @@
                             <div>
                                 <label class="block text-[10px] font-semibold text-slate-300 mb-0.5">Image Link / Filename *</label>
                                 <div class="flex gap-1.5">
-                                    <input type="text" id="admin-prod-image" placeholder="Image URL or local name..." required class="w-full text-xs rounded-xl bg-brand-card border border-brand-gold/30 p-2 text-white focus:outline-none">
-                                    <button type="button" onclick="document.getElementById('admin-prod-file-upload').click()" class="px-2.5 rounded-xl bg-brand-royal border border-brand-gold/40 text-amber-200 text-xs" title="Upload to ImgBB">
+                                    <input type="text" id="admin-prod-image" placeholder="Image URL or local file name..." required class="w-full text-xs rounded-xl bg-brand-card border border-brand-gold/30 p-2 text-white focus:outline-none">
+                                    <button type="button" onclick="document.getElementById('admin-prod-file-upload').click()" class="px-2.5 rounded-xl bg-brand-royal border border-brand-gold/40 text-amber-200 text-xs" title="Upload directly">
                                         <i class="fa-solid fa-arrow-up-from-bracket"></i>
                                     </button>
                                 </div>
                                 <input type="file" id="admin-prod-file-upload" accept="image/*" class="sr-only" onchange="handleAdminImageUpload(event)">
-                                <span class="text-[9px] text-slate-400 block mt-0.5">Enter URL or click icon to upload photo directly</span>
+                                <span class="text-[9px] text-slate-400 block mt-0.5">Paste photo URL or click upload to store image</span>
                             </div>
 
                             <div class="grid grid-cols-2 gap-2">
@@ -675,7 +679,7 @@
         const WHATSAPP_CONTACT = "919468834660";
         const IMGBB_API_KEY = "5a1559d8523a772b3ab598df679d7290";
 
-        // Admin Credentials for Prem
+        // Admin Credentials
         const ADMIN_CREDENTIALS = {
             id: "Prem@1234",
             pass: "Jaingiftingprem@9468"
@@ -698,16 +702,16 @@
             firebase.initializeApp(firebaseConfig);
             db = firebase.firestore();
             isFirebaseActive = true;
-            console.log("Firebase connected successfully");
+            console.log("Firebase connected");
         } catch (err) {
-            console.warn("Firebase fallback mode active:", err);
+            console.warn("Firebase offline or fallback active:", err);
         }
 
-        const LOCAL_STORAGE_KEY_ORDERS = "TGC_STORE_ORDERS_V3";
-        const LOCAL_STORAGE_KEY_PRODUCTS = "TGC_STORE_PRODUCTS_V3";
-        const LOCAL_STORAGE_KEY_CATEGORIES = "TGC_STORE_CATEGORIES_V3";
+        // PERMANENT STORAGE KEYS
+        const LOCAL_STORAGE_KEY_ORDERS = "TGC_STORE_ORDERS_MASTER";
+        const LOCAL_STORAGE_KEY_PRODUCTS = "TGC_STORE_PRODUCTS_MASTER";
+        const LOCAL_STORAGE_KEY_CATEGORIES = "TGC_STORE_CATEGORIES_MASTER";
 
-        // Default Categories
         const defaultCategories = [
             "Romantic & Cards",
             "Personalized Gifts",
@@ -716,10 +720,9 @@
             "Tech & Accessories"
         ];
 
-        // Default Initial Products
         const defaultProductsList = [
             {
-                id: 1,
+                id: "1",
                 name: "Cute Moments & Love Story Custom Cards",
                 category: "Romantic & Cards",
                 price: 100,
@@ -732,7 +735,7 @@
                 description: "Heartwarming cute couple playing cards and mini love story frames. Upload your favorite romantic photo and personalized sweet instructions."
             },
             {
-                id: 2,
+                id: "2",
                 name: "Personalized Keepsake Photo Frame & Mug Set",
                 category: "Personalized Gifts",
                 price: 100,
@@ -745,7 +748,7 @@
                 description: "Hot pour magic revealing photo mug paired with acrylic photo keychain and anniversary quote typography."
             },
             {
-                id: 3,
+                id: "3",
                 name: "Nokha Celebrity Mascot Booking & Party Prop",
                 category: "Mascot & Party",
                 price: 100,
@@ -755,10 +758,10 @@
                 fallbackImage: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&auto=format&fit=crop&q=80",
                 badge: "Celebrity Mascots",
                 features: ["Nokha Teddy, Gorilla & Panda", "Birthday & Anniversary Visits", "Photo & Video Moments"],
-                description: "Genuine mascot character appearance bookings (Nokha Teddy, Gorilla, and Panda Mascot) with custom celebration backdrops."
+                description: "Genuine mascot character appearance bookings with custom celebration backdrops."
             },
             {
-                id: 4,
+                id: "4",
                 name: "Desi Mom Dialogues Quirky Badges & Magnets",
                 category: "Quirky & Pop Art",
                 price: 100,
@@ -768,10 +771,10 @@
                 fallbackImage: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&auto=format&fit=crop&q=80",
                 badge: "Fun & Quirky",
                 features: ["Ghar Ke Rules Collection", "Glossy Scratch-Proof Magnets", "4 Iconic Mom Expressions"],
-                description: "Hilarious desi mom dialogues ('Fridge theek se band kardo', 'Khali bottle bhar ke rakho') high gloss fridge magnet and badge set."
+                description: "Hilarious desi mom dialogues high gloss fridge magnet and badge set."
             },
             {
-                id: 5,
+                id: "5",
                 name: "Custom Embossed Phone Skin & Protective Case",
                 category: "Tech & Accessories",
                 price: 100,
@@ -796,7 +799,6 @@
         let adminCurrentFilter = 'all';
         let liveCloudOrders = [];
 
-        // Tab Switching
         function switchTab(pageId) {
             const p1 = document.getElementById('page-1');
             const p2 = document.getElementById('page-2');
@@ -824,10 +826,10 @@
         }
 
         // ==========================================
-        // DYNAMIC PRODUCT & CATEGORY DATA MANAGEMENT
+        // PERMANENT STORAGE ENGINE (LOCAL-FIRST MASTER)
         // ==========================================
         function initStoreData() {
-            // Load Categories
+            // 1. Load Categories: Always read local persistent storage first
             try {
                 const storedCats = localStorage.getItem(LOCAL_STORAGE_KEY_CATEGORIES);
                 categoriesList = storedCats ? JSON.parse(storedCats) : [...defaultCategories];
@@ -835,7 +837,7 @@
                 categoriesList = [...defaultCategories];
             }
 
-            // Load Products
+            // 2. Load Products: Always read local persistent storage first
             try {
                 const storedProds = localStorage.getItem(LOCAL_STORAGE_KEY_PRODUCTS);
                 productsList = storedProds ? JSON.parse(storedProds) : [...defaultProductsList];
@@ -843,31 +845,44 @@
                 productsList = [...defaultProductsList];
             }
 
-            // Firestore sync listeners
+            // Save baseline to device so it never wipes out
+            saveLocalCategories();
+            saveLocalProducts();
+
+            // 3. Connect to Firestore as secondary live mirror (safe from 30-day purge)
             if (isFirebaseActive && db) {
-                // Categories Firestore Listener
-                db.collection('store_categories').doc('active').onSnapshot(doc => {
-                    if (doc.exists && doc.data() && doc.data().list) {
+                // Categories Firestore Sync
+                db.collection('store_categories').doc('active').get().then(doc => {
+                    if (doc.exists && doc.data() && doc.data().list && doc.data().list.length > 0) {
+                        // Merge or update only if valid list exists
                         categoriesList = doc.data().list;
                         saveLocalCategories();
                         renderCategoryBar();
                         renderAdminCategories();
+                    } else {
+                        // Push local master to cloud if cloud was wiped
+                        syncCategoriesToCloud();
                     }
-                }, err => console.warn("Firestore categories notice:", err));
+                }).catch(err => console.warn("Firestore categories notice:", err));
 
-                // Products Firestore Listener
-                db.collection('store_products').onSnapshot(snapshot => {
+                // Products Firestore Sync
+                db.collection('store_products').get().then(snapshot => {
                     if (!snapshot.empty) {
                         const cloudProds = [];
                         snapshot.forEach(doc => {
                             cloudProds.push({ id: doc.id, ...doc.data() });
                         });
-                        productsList = cloudProds;
-                        saveLocalProducts();
-                        renderFilteredCatalog();
-                        renderAdminCatalogList();
+                        if (cloudProds.length > 0) {
+                            productsList = cloudProds;
+                            saveLocalProducts();
+                            renderFilteredCatalog();
+                            renderAdminCatalogList();
+                        }
+                    } else {
+                        // Cloud was deleted/empty: Repopulate cloud from permanent local storage!
+                        reseedCloudProductsFromLocal();
                     }
-                }, err => console.warn("Firestore products notice:", err));
+                }).catch(err => console.warn("Firestore products fetch notice:", err));
             }
 
             renderCategoryBar();
@@ -886,6 +901,17 @@
             } catch (e) { console.error(e); }
         }
 
+        async function reseedCloudProductsFromLocal() {
+            if (!isFirebaseActive || !db) return;
+            try {
+                for (const p of productsList) {
+                    await db.collection('store_products').doc(String(p.id)).set(p);
+                }
+            } catch (e) {
+                console.warn("Could not reseed cloud:", e);
+            }
+        }
+
         async function syncCategoriesToCloud() {
             saveLocalCategories();
             renderCategoryBar();
@@ -893,7 +919,7 @@
             if (isFirebaseActive && db) {
                 try {
                     await db.collection('store_categories').doc('active').set({ list: categoriesList });
-                } catch (e) { console.error("Cloud category sync error:", e); }
+                } catch (e) { console.warn("Cloud category sync error:", e); }
             }
         }
 
@@ -904,7 +930,7 @@
             if (isFirebaseActive && db) {
                 try {
                     await db.collection('store_products').doc(String(product.id)).set(product);
-                } catch (e) { console.error("Cloud product sync error:", e); }
+                } catch (e) { console.warn("Cloud product sync error:", e); }
             }
         }
 
@@ -915,11 +941,57 @@
             if (isFirebaseActive && db) {
                 try {
                     await db.collection('store_products').doc(String(productId)).delete();
-                } catch (e) { console.error("Cloud product delete error:", e); }
+                } catch (e) { console.warn("Cloud product delete error:", e); }
             }
         }
 
-        // Render Public Category Pill Navigation
+        // ==========================================
+        // BACKUP & RESTORE UTILITIES (PERMANENT COPY)
+        // ==========================================
+        function backupCatalogJSON() {
+            const backupPayload = {
+                exportedAt: new Date().toISOString(),
+                categories: categoriesList,
+                products: productsList
+            };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupPayload, null, 2));
+            const dl = document.createElement('a');
+            dl.setAttribute("href", dataStr);
+            dl.setAttribute("download", `TheGiftingCloud_Catalog_Backup_${Date.now()}.json`);
+            dl.click();
+            showToast("Catalog backup downloaded successfully!");
+        }
+
+        function restoreCatalogJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (parsed.categories && Array.isArray(parsed.categories)) {
+                        categoriesList = parsed.categories;
+                        syncCategoriesToCloud();
+                    }
+                    if (parsed.products && Array.isArray(parsed.products)) {
+                        productsList = parsed.products;
+                        saveLocalProducts();
+                        reseedCloudProductsFromLocal();
+                        renderFilteredCatalog();
+                        renderAdminCatalogList();
+                    }
+                    showToast("Catalog restored successfully from file!");
+                } catch (err) {
+                    alert("Invalid JSON backup file.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // ==========================================
+        // PUBLIC CATEGORY & PRODUCT RENDERING
+        // ==========================================
         function renderCategoryBar() {
             const container = document.getElementById('category-filter-bar');
             if (!container) return;
@@ -958,7 +1030,6 @@
             }
         }
 
-        // Render Public Catalog Grid
         function renderProducts(items) {
             const container = document.getElementById('products-container');
             if (!container) return;
@@ -968,7 +1039,7 @@
                     <div class="col-span-full p-12 text-center glass-card rounded-2xl border border-brand-gold/30">
                         <i class="fa-solid fa-gift text-3xl text-brand-gold/40 mb-2"></i>
                         <h4 class="text-sm font-bold text-white">No products found in this category.</h4>
-                        <p class="text-xs text-slate-400 mt-1">Select another category or contact us directly on WhatsApp.</p>
+                        <p class="text-xs text-slate-400 mt-1">Select another category or contact us on WhatsApp.</p>
                     </div>
                 `;
                 return;
@@ -1011,7 +1082,7 @@
         }
 
         // ==========================================
-        // ADMIN CATEGORY & PRODUCT MANAGEMENT
+        // ADMIN CATEGORY & CATALOG EDITOR
         // ==========================================
         function populateCategoryDropdown() {
             const dropdown = document.getElementById('admin-prod-category');
@@ -1102,12 +1173,11 @@
             `).join('');
         }
 
-        // Image upload to ImgBB from Admin Form
         async function handleAdminImageUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            showToast("Uploading image to cloud...");
+            showToast("Uploading image...");
             try {
                 const compressedBlob = await compressImageOnCanvas(file, 1200, 0.75);
                 const url = await uploadToImgBB(compressedBlob, file.name);
@@ -1115,7 +1185,7 @@
                 showToast("Image uploaded successfully!");
             } catch (err) {
                 console.error(err);
-                showToast("Upload failed, please paste an image link manually.");
+                showToast("Upload failed, please paste an image URL.");
             }
         }
 
@@ -1134,7 +1204,6 @@
             const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(Boolean) : ["Handcrafted", "Personalized"];
 
             if (prodId) {
-                // Updating existing
                 const existingIndex = productsList.findIndex(p => String(p.id) === String(prodId));
                 if (existingIndex !== -1) {
                     const updatedProduct = {
@@ -1150,11 +1219,10 @@
                     };
                     productsList[existingIndex] = updatedProduct;
                     syncProductToCloud(updatedProduct);
-                    showToast("Product updated successfully!");
+                    showToast("Product updated permanently!");
                 }
             } else {
-                // Creating new product
-                const newId = Date.now();
+                const newId = String(Date.now());
                 const newProduct = {
                     id: newId,
                     name,
@@ -1170,7 +1238,7 @@
                 };
                 productsList.unshift(newProduct);
                 syncProductToCloud(newProduct);
-                showToast("New product created!");
+                showToast("New product created permanently!");
             }
 
             resetProductForm();
@@ -1204,7 +1272,7 @@
 
             productsList = productsList.filter(p => String(p.id) !== String(productId));
             deleteProductFromCloud(productId);
-            showToast("Product deleted from catalog!");
+            showToast("Product removed permanently!");
         }
 
         function resetProductForm() {
@@ -1301,7 +1369,6 @@
                 reader.readAsDataURL(compressedBlob);
                 showToast("Photo optimized for instant upload!");
             } catch (err) {
-                console.warn("Compression fallback:", err);
                 optimizedCompressedBlob = file;
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -1338,7 +1405,7 @@
 
                         canvas.toBlob((blob) => {
                             if (blob) resolve(blob);
-                            else reject(new Error("Canvas blob conversion failed"));
+                            else reject(new Error("Canvas conversion failed"));
                         }, 'image/jpeg', quality);
                     };
                     img.onerror = reject;
@@ -1397,7 +1464,7 @@
                 if (data.success && data.data && data.data.url) {
                     return data.data.url;
                 }
-                throw new Error("ImgBB API returned failure");
+                throw new Error("ImgBB failure");
             } catch (err) {
                 clearTimeout(timeoutId);
                 throw err;
@@ -1441,7 +1508,7 @@
                         renderAdminDashboard();
                     }
                 }, (err) => {
-                    console.warn("Firestore snapshot notice:", err);
+                    console.warn("Orders snapshot notice:", err);
                     liveCloudOrders = getLocalFallbackOrders();
                 });
             } catch (err) {
@@ -1498,7 +1565,7 @@
             try {
                 photoUrl = await uploadToImgBB(optimizedCompressedBlob, optimizedFileName);
             } catch (err) {
-                console.warn("ImgBB fast upload timeout/fallback:", err);
+                console.warn("ImgBB upload timeout/fallback:", err);
                 photoUrl = `[Photo: ${optimizedFileName || 'Attached'} - Sending via WhatsApp]`;
             }
 
@@ -1843,14 +1910,6 @@ Kindly confirm my ₹${totalSum} order. Thank you!`;
             document.getElementById('image-lightbox-modal').classList.add('hidden');
         }
 
-        function exportOrdersJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(liveCloudOrders, null, 2));
-            const dl = document.createElement('a');
-            dl.setAttribute("href", dataStr);
-            dl.setAttribute("download", `TheGiftingCloud_Orders_${Date.now()}.json`);
-            dl.click();
-        }
-
         function escapeHtml(str) {
             if (!str) return '';
             return String(str)
@@ -1879,7 +1938,6 @@ Kindly confirm my ₹${totalSum} order. Thank you!`;
             }
         });
 
-        // Initialize App
         window.onload = function() {
             initStoreData();
             initFirestoreListener();
